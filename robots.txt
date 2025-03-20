@@ -1,4 +1,1 @@
-User-agent: *
-Disallow:
-
-Sitemap: https://ZTA2785.github.io/sitemap.xml
+User-agent: * Disallow: Sitemap: https://ZTA2785.github.io/sitemap.xml
