@@ -7,7 +7,7 @@
         {%- if site.data.venues[entry.abbr] -%}
           {% assign venue_style = null %}
           {% if site.data.venues[entry.abbr].color != blank %}
-            {% assign venue_style = site.data.venues[entry.abbr].color | prepend: 'style="background-color:' | append: '"' %}
+            {% assign venue_style = site.data.venues[entry.abbr].color | prepend: 'style="background-color:' | append: '; color: white !important;"' %}
           {%- endif -%}
           <abbr
             class="badge rounded w-100"
@@ -37,7 +37,6 @@
             sizes = "200px"
             class="preview z-depth-1 rounded"
             zoomable=true
-            avoid_scaling=true
             alt=entry.preview
           %}
         {% endif %}
@@ -46,7 +45,7 @@
   {% endif %}
 
   <!-- Entry bib key -->
-  <div id="{{ entry.key }}" class="{% if site.enable_publication_thumbnails %}col-sm-8{% else %}col-sm-10{% endif %}">
+  <div id="{{ entry.key }}" class="{% if site.enable_publication_thumbnails %}col-sm-10{% else %}col-sm-10{% endif %}">
     <!-- Title -->
     <div class="title">{{ entry.title }}</div>
     <!-- Author -->
@@ -54,9 +53,6 @@
       {% assign author_array_size = entry.author_array | size %}
 
       {% assign author_array_limit = author_array_size %}
-      {% if site.max_author_limit and author_array_size > site.max_author_limit %}
-        {% assign author_array_limit = site.max_author_limit %}
-      {% endif %}
 
       {%- for author in entry.author_array limit: author_array_limit -%}
         {% assign author_is_self = false %}
@@ -152,7 +148,25 @@
     {% if entry.type == 'article' %}
       {% capture entrytype %}<em>{{ entry.journal }}</em>{% endcapture %}
     {% elsif proceedings contains entry.type %}
-      {% capture entrytype %}<em>In {{ entry.booktitle }}</em>{% endcapture %}
+      {% if entry.booktitle == "NeurIPS" -%}
+        {%- capture entrytype -%}<em>In Advances in Neural Information Processing Systems</em> {%- endcapture -%}
+      {%- elsif entry.booktitle == "ICCV" -%}
+        {%- capture entrytype -%}<em>In International Conference on Computer Vision</em> {%- endcapture -%}
+      {%- elsif entry.booktitle == "CVPR" -%}
+        {%- capture entrytype -%}<em>In Computer Vision and Pattern Recognition</em> {%- endcapture -%}
+      {%- elsif entry.booktitle == "ECCV" -%}
+        {%- capture entrytype -%}<em>In European Conference on Computer Vision</em> {%- endcapture -%}
+      {%- elsif entry.booktitle == "ICLR" -%}
+        {%- capture entrytype -%}<em>In International Conference on Learning Representations</em> {%- endcapture -%}
+      {%- elsif entry.booktitle == "ICML" -%}
+        {%- capture entrytype -%}<em>In International Conference on Machine Learning</em> {%- endcapture -%}
+      {%- elsif entry.booktitle == "CVPRW" -%}
+        {%- capture entrytype -%}<em>In Computer Vision and Pattern Recognition Workshops</em> {%- endcapture -%}
+      {%- elsif entry.booktitle == "arXiv" -%}
+        {%- capture entrytype -%}<em>{{entry.booktitle}}</em> {%- endcapture -%}
+      {%- else -%}
+        {%- capture entrytype -%}<em>In {{entry.booktitle}}</em> {%- endcapture -%}
+      {%- endif %}
     {% elsif thesis contains entry.type %}
       {% capture entrytype %}<em>{{ entry.school }}</em>{% endcapture %}
     {% else %}
