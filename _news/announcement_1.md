@@ -5,4 +5,4 @@ inline: true
 related_posts: false
 ---
 
-Our papers [ARB-LLM](https://arxiv.org/abs/2410.03129) is accepted by ICLR 2025.
+Our paper [ARB-LLM](https://arxiv.org/abs/2410.03129) is accepted by ICLR 2025.
